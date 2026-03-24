@@ -123,38 +123,19 @@ const meetings = [
   },
 ];
 
-const typeStyles: Record<string, { border: string; bg: string; badge: string; label: string }> = {
-  requirement: {
-    border: "border-blue-400",
-    bg: "bg-blue-50",
-    badge: "text-blue-700",
-    label: "Требование",
-  },
-  decision: {
-    border: "border-green-500",
-    bg: "bg-green-50",
-    badge: "text-green-700",
-    label: "Решение",
-  },
-  cancelled: {
-    border: "border-red-500",
-    bg: "bg-red-50",
-    badge: "text-red-700",
-    label: "Отмена / Пересмотр",
-  },
-  risk: {
-    border: "border-orange-400",
-    bg: "bg-orange-50",
-    badge: "text-orange-700",
-    label: "Риск / Ограничение",
-  },
+// Приглушённая палитра
+const palette = {
+  requirement: { border: "#7aa3c8", bg: "#f4f8fc", text: "#2c4a6e", dot: "#7aa3c8", ring: "#dce9f4" },
+  decision:    { border: "#7aab8a", bg: "#f4faf6", text: "#2b4d38", dot: "#7aab8a", ring: "#dceee3" },
+  cancelled:   { border: "#b87a7a", bg: "#fdf5f5", text: "#6b2b2b", dot: "#b87a7a", ring: "#f0dede" },
+  risk:        { border: "#c4976a", bg: "#fdf8f3", text: "#6b3f1a", dot: "#c4976a", ring: "#f0e3d0" },
 };
 
-function getMeetingDotColor(items: typeof meetings[0]["items"]) {
-  if (items.some((i) => i.type === "cancelled")) return { bg: "#ef4444", ring: "#fecaca" };
-  if (items.some((i) => i.type === "risk")) return { bg: "#f97316", ring: "#fed7aa" };
-  if (items.some((i) => i.type === "requirement")) return { bg: "#3b82f6", ring: "#bfdbfe" };
-  return { bg: "#22c55e", ring: "#bbf7d0" };
+function getMeetingDot(items: typeof meetings[0]["items"]) {
+  if (items.some((i) => i.type === "cancelled")) return palette.cancelled;
+  if (items.some((i) => i.type === "risk")) return palette.risk;
+  if (items.some((i) => i.type === "requirement")) return palette.requirement;
+  return palette.decision;
 }
 
 export default function Index() {
@@ -163,7 +144,7 @@ export default function Index() {
       style={{
         fontFamily: "'Golos Text', sans-serif",
         minHeight: "100vh",
-        background: "linear-gradient(135deg, #e8eaf0 0%, #d6d9e4 100%)",
+        background: "#e5e7eb",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -177,90 +158,87 @@ export default function Index() {
           maxWidth: "1280px",
           aspectRatio: "16/9",
           background: "#ffffff",
-          borderRadius: "16px",
-          boxShadow: "0 24px 64px rgba(0,0,0,0.18)",
+          borderRadius: "4px",
+          boxShadow: "0 4px 32px rgba(0,0,0,0.12)",
           display: "flex",
           flexDirection: "column",
           overflow: "hidden",
+          border: "1px solid #d1d5db",
         }}
       >
         {/* Header */}
         <div
           style={{
-            background: "#0f1923",
-            padding: "16px 40px",
+            background: "#ffffff",
+            padding: "14px 40px 12px",
             display: "flex",
-            alignItems: "center",
+            alignItems: "flex-end",
             justifyContent: "space-between",
             flexShrink: 0,
-            borderBottom: "2px solid #1e2d3d",
+            borderBottom: "1px solid #e5e7eb",
           }}
         >
           <div>
-            <div style={{ color: "#64748b", fontSize: "9px", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "2px" }}>
+            <div style={{ color: "#9ca3af", fontSize: "8.5px", fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "3px" }}>
               Ключевая аналитика · Проект
             </div>
-            <div style={{ color: "#ffffff", fontSize: "18px", fontWeight: 800, letterSpacing: "-0.01em" }}>
+            <div style={{ color: "#111827", fontSize: "17px", fontWeight: 700, letterSpacing: "-0.01em" }}>
               Дорожная карта — Аналитика «Службы»
             </div>
           </div>
-          <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
+          <div style={{ display: "flex", gap: "18px", alignItems: "center", paddingBottom: "2px" }}>
             {[
-              { color: "#3b82f6", label: "Требование" },
-              { color: "#22c55e", label: "Решение" },
-              { color: "#f97316", label: "Риск / Ограничение" },
-              { color: "#ef4444", label: "Отмена / Пересмотр" },
+              { color: palette.requirement.dot, label: "Требование" },
+              { color: palette.decision.dot, label: "Решение" },
+              { color: palette.risk.dot, label: "Риск / Ограничение" },
+              { color: palette.cancelled.dot, label: "Отмена / Пересмотр" },
             ].map((l) => (
-              <div key={l.label} style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: l.color, flexShrink: 0, display: "inline-block" }} />
-                <span style={{ color: "#94a3b8", fontSize: "10px", whiteSpace: "nowrap" }}>{l.label}</span>
+              <div key={l.label} style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: l.color, flexShrink: 0, display: "inline-block" }} />
+                <span style={{ color: "#6b7280", fontSize: "9.5px", whiteSpace: "nowrap" }}>{l.label}</span>
               </div>
             ))}
           </div>
         </div>
 
         {/* Timeline row */}
-        <div
-          style={{
-            padding: "14px 40px 8px",
-            position: "relative",
-            flexShrink: 0,
-          }}
-        >
+        <div style={{ padding: "14px 44px 6px", position: "relative", flexShrink: 0 }}>
           {/* Horizontal line */}
           <div style={{
             position: "absolute",
-            top: "28px",
-            left: "calc(40px + 4%)",
-            right: "calc(40px + 4%)",
-            height: "2px",
-            background: "linear-gradient(to right, #cbd5e1, #94a3b8, #cbd5e1)",
+            top: "27px",
+            left: "calc(44px + 4.2%)",
+            right: "calc(44px + 4.2%)",
+            height: "1px",
+            background: "#d1d5db",
             zIndex: 0,
           }} />
           <div style={{ display: "grid", gridTemplateColumns: `repeat(${meetings.length}, 1fr)`, position: "relative", zIndex: 1 }}>
             {meetings.map((m, i) => {
-              const dot = getMeetingDotColor(m.items);
+              const dot = getMeetingDot(m.items);
               return (
                 <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                  {/* Dot */}
                   <div style={{
-                    width: "28px",
-                    height: "28px",
+                    width: "22px",
+                    height: "22px",
                     borderRadius: "50%",
-                    background: dot.bg,
-                    boxShadow: `0 0 0 4px ${dot.ring}, 0 2px 8px rgba(0,0,0,0.15)`,
+                    background: "#ffffff",
+                    border: `1.5px solid ${dot.dot}`,
+                    boxShadow: `0 0 0 3px ${dot.ring}`,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    color: "#fff",
-                    fontSize: "11px",
-                    fontWeight: 800,
+                    color: dot.text,
+                    fontSize: "9px",
+                    fontWeight: 700,
                   }}>
                     {i + 1}
                   </div>
-                  <div style={{ marginTop: "5px", fontSize: "12px", fontWeight: 800, color: "#1e293b", letterSpacing: "0.04em" }}>
+                  <div style={{ marginTop: "5px", fontSize: "11.5px", fontWeight: 700, color: "#1f2937", letterSpacing: "0.02em" }}>
                     {m.date}
                   </div>
-                  <div style={{ fontSize: "8.5px", color: "#94a3b8", textAlign: "center", maxWidth: "88px", lineHeight: "1.3", marginTop: "1px" }}>
+                  <div style={{ fontSize: "8px", color: "#9ca3af", textAlign: "center", maxWidth: "86px", lineHeight: "1.35", marginTop: "1px" }}>
                     {m.label}
                   </div>
                 </div>
@@ -275,67 +253,51 @@ export default function Index() {
             flex: 1,
             display: "grid",
             gridTemplateColumns: `repeat(${meetings.length}, 1fr)`,
-            gap: "8px",
-            padding: "0 40px 14px",
+            gap: "6px",
+            padding: "4px 44px 12px",
             overflow: "hidden",
             alignItems: "start",
           }}
         >
           {meetings.map((m, mi) => (
-            <div key={mi} style={{ display: "flex", flexDirection: "column", gap: "6px", minWidth: 0 }}>
+            <div key={mi} style={{ display: "flex", flexDirection: "column", gap: "5px", minWidth: 0 }}>
               {m.items.map((item, ii) => {
-                const s = typeStyles[item.type];
+                const p = palette[item.type as keyof typeof palette];
                 const isCancelled = item.type === "cancelled";
                 return (
                   <div
                     key={ii}
                     style={{
-                      borderRadius: "8px",
-                      borderLeft: `3px solid ${
-                        item.type === "requirement" ? "#3b82f6"
-                        : item.type === "decision" ? "#22c55e"
-                        : item.type === "cancelled" ? "#ef4444"
-                        : "#f97316"
-                      }`,
-                      background: item.type === "requirement" ? "#eff6ff"
-                        : item.type === "decision" ? "#f0fdf4"
-                        : item.type === "cancelled" ? "#fff1f2"
-                        : "#fff7ed",
-                      padding: "7px 9px",
+                      borderRadius: "3px",
+                      borderLeft: `2px solid ${p.border}`,
+                      background: p.bg,
+                      padding: "6px 8px",
                     }}
                   >
-                    <div style={{ display: "flex", alignItems: "center", gap: "5px", marginBottom: "2px" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "4px", marginBottom: "2px" }}>
                       <Icon
                         name={item.icon}
-                        size={10}
-                        style={{
-                          color: item.type === "requirement" ? "#2563eb"
-                            : item.type === "decision" ? "#16a34a"
-                            : item.type === "cancelled" ? "#dc2626"
-                            : "#ea580c",
-                          flexShrink: 0,
-                        }}
+                        size={9}
+                        style={{ color: p.border, flexShrink: 0 }}
                       />
                       <span style={{
-                        fontSize: "9.5px",
+                        fontSize: "9px",
                         fontWeight: 700,
-                        color: item.type === "requirement" ? "#1d4ed8"
-                          : item.type === "decision" ? "#15803d"
-                          : item.type === "cancelled" ? "#b91c1c"
-                          : "#c2410c",
+                        color: p.text,
                         lineHeight: "1.2",
+                        letterSpacing: "0.01em",
                       }}>
                         {item.title}
                       </span>
                     </div>
                     <p style={{
-                      fontSize: "9px",
-                      color: isCancelled ? "#9ca3af" : "#475569",
+                      fontSize: "8.5px",
+                      color: isCancelled ? "#b0b7c0" : "#4b5563",
                       lineHeight: "1.45",
                       margin: 0,
                       textDecoration: isCancelled ? "line-through" : "none",
-                      textDecorationColor: "#ef4444",
-                      textDecorationThickness: "1.5px",
+                      textDecorationColor: "#b87a7a",
+                      textDecorationThickness: "1px",
                     }}>
                       {item.text}
                     </p>
@@ -348,25 +310,25 @@ export default function Index() {
 
         {/* Footer */}
         <div style={{
-          background: "#f8fafc",
-          borderTop: "1px solid #e2e8f0",
-          padding: "8px 40px",
+          background: "#ffffff",
+          borderTop: "1px solid #e5e7eb",
+          padding: "7px 44px",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
           flexShrink: 0,
         }}>
-          <div style={{ display: "flex", gap: "20px" }}>
+          <div style={{ display: "flex", gap: "18px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-              <Icon name="XCircle" size={11} style={{ color: "#ef4444" }} />
-              <span style={{ fontSize: "8.5px", color: "#94a3b8" }}>Перечёркнутый текст — отменённое или пересмотренное решение</span>
+              <Icon name="XCircle" size={10} style={{ color: "#b87a7a" }} />
+              <span style={{ fontSize: "8px", color: "#9ca3af" }}>Перечёркнутый текст — отменённое или пересмотренное решение</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-              <Icon name="Clock" size={11} style={{ color: "#f97316" }} />
-              <span style={{ fontSize: "8.5px", color: "#94a3b8" }}>Реализация приостановлена на этапах 17.03 и 19.03</span>
+              <Icon name="Clock" size={10} style={{ color: "#c4976a" }} />
+              <span style={{ fontSize: "8px", color: "#9ca3af" }}>Реализация приостановлена на этапах 17.03 и 19.03</span>
             </div>
           </div>
-          <span style={{ fontSize: "8.5px", color: "#cbd5e1", letterSpacing: "0.05em" }}>
+          <span style={{ fontSize: "8px", color: "#d1d5db", letterSpacing: "0.06em" }}>
             Март 2026 · Ключевая аналитика — Службы
           </span>
         </div>
