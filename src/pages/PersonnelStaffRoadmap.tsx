@@ -5,26 +5,7 @@ const meetings = [
   {
     date: "06.03",
     label: "Установочная встреча",
-    items: [
-      {
-        type: "requirement",
-        icon: "FileText",
-        title: "Требование",
-        text: "В 1С:УХ отсутствует порядок ведения справочника «Профили должностей», используемого в подсистеме табелирования внешних физлиц.",
-      },
-      {
-        type: "decision",
-        icon: "CheckCircle",
-        title: "Решение (предварительное)",
-        text: "Альтернативный вариант: при невозможности реструктуризации данных — переход на типовой справочник «Должности» для целей планирования.",
-      },
-      {
-        type: "risk",
-        icon: "AlertTriangle",
-        title: "Ограничение",
-        text: "Нормализация справочника «Профили должностей» — критически важная задача. Аналитика приостановлена до нормализации и согласования целевой структуры.",
-      },
-    ],
+    items: [] as { type: string; icon: string; title: string; text: string }[],
   },
   {
     date: "11.03",
@@ -34,37 +15,31 @@ const meetings = [
         type: "risk",
         icon: "AlertTriangle",
         title: "Ограничение",
-        text: "Два параллельных справочника: «Должности» (планирование/бюджетирование) и «Профили должностей» (табелирование внешних физлиц). Функционал табелирования работает только в 1 отеле («Изумрудный лес»).",
+        text: "Для реализации планирования по конкретным сотрудникам требуется загрузка персональных данных, что вступает в конфликт с позицией Заказчика по защите ПДН и исключает возможность реализации требований ТЗ по планированию штатного персонала.",
       },
       {
-        type: "risk",
-        icon: "AlertOctagon",
-        title: "Проблема",
-        text: "Подсистема Табелирования подразумевалась как один из источников планирования в текущих границах проекта.",
+        type: "decision",
+        icon: "CheckCircle",
+        title: "Принятое решение",
+        text: "Отказаться от загрузки персональных данных (ФИО) штатных сотрудников из 1С:ЗУП в 1С:УХ из-за требований законодательства о защите персональных данных и рисков утечки информации.",
       },
     ],
   },
   {
     date: "16.03",
-    label: "Обсуждение аналитик",
+    label: "Обсуждение ключевых аналитик",
     items: [
       {
-        type: "decision",
-        icon: "CheckCircle",
-        title: "Принятое решение",
-        text: "Использование текущего справочника УХ «Должности».",
-      },
-      {
-        type: "risk",
-        icon: "AlertTriangle",
-        title: "Риск",
-        text: "Нарушение сроков по независящим от Исполнителя причинам — если Заказчик не выполнит объединение и корректировку данных.",
+        type: "cancelled",
+        icon: "XCircle",
+        title: "Пересмотр решения от 11.03",
+        text: "1. Отказ от планирования по ФИО. Использование обезличенных данных (например, только должности) или нового справочника без ФИО.",
       },
       {
         type: "risk",
         icon: "AlertTriangle",
         title: "Ограничение",
-        text: "Необходимо отдельное обсуждение с ИТ по хранению доработок справочника «Договоры». Противоречит ограничению 2 встречи от 11.03. Подсистема табелирования планируется к масштабированию на все отели.",
+        text: "Открытый вопрос по способу хранения и использования персональных данных сотрудников в базе УХ.",
       },
     ],
   },
@@ -74,45 +49,39 @@ const meetings = [
     items: [
       {
         type: "risk",
-        icon: "AlertTriangle",
-        title: "Ограничение",
-        text: "Решение о привязке ставок к «Версии договора» или выделении отдельного документа/регистра выносится на обсуждение с бизнес-заказчиком.",
-      },
-      {
-        type: "risk",
         icon: "AlertOctagon",
-        title: "Технический риск",
-        text: "ИТ видит проблемы в хранении ставок в Табелировании: права доступа к договору, несинхронность обновления версий и ставок.",
-      },
-      {
-        type: "cancelled",
-        icon: "XCircle",
-        title: "Отмена всех предыдущих решений",
-        text: "Предложено новое решение: реализация хранения ставок как новый самостоятельный функционал (новый документ / регистр / роли). Отменяет все решения по использованию подсистемы Табелирования.",
+        title: "Не обсуждалось",
+        text: "Обсуждение не проводилось. См. Ограничение встречи от 16.03.",
       },
     ],
   },
   {
     date: "19.03",
-    label: "Встреча с бизнесом",
+    label: "Встреча с Бизнесом",
     items: [
+      {
+        type: "decision",
+        icon: "CheckCircle",
+        title: "Принятое решение",
+        text: "Получен ответ от СБ на разрешение ограниченного использования (ФИО + должность) с получением согласия на обработку персональных данных. Процедура получения согласия организуется на стороне Заказчика.",
+      },
       {
         type: "risk",
         icon: "AlertTriangle",
         title: "Ограничение",
-        text: "Вопрос не обсуждался — не хватило времени.",
+        text: "Не обсуждались варианты мест хранения и ведения данных по собственным сотрудникам.",
       },
     ],
   },
   {
     date: "20.03",
-    label: "Встреча с бизнесом",
+    label: "Встреча с Бизнесом",
     items: [
       {
         type: "risk",
         icon: "AlertTriangle",
         title: "Ограничение",
-        text: "Решения не приняты — отсутствовали лица, принимающие решения со стороны HR.",
+        text: "Не принято решений, ввиду отсутствия лиц принимающих решения со стороны HR.",
       },
     ],
   },
@@ -126,13 +95,14 @@ const palette = {
 };
 
 function getMeetingDot(items: typeof meetings[0]["items"]) {
+  if (items.length === 0) return { dot: "#d1d5db", ring: "#f3f4f6", text: "#9ca3af" };
   if (items.some((i) => i.type === "cancelled")) return palette.cancelled;
   if (items.some((i) => i.type === "risk")) return palette.risk;
   if (items.some((i) => i.type === "requirement")) return palette.requirement;
   return palette.decision;
 }
 
-export default function ProfilesRoadmap() {
+export default function PersonnelStaffRoadmap() {
   const navigate = useNavigate();
   return (
     <div
@@ -157,8 +127,8 @@ export default function ProfilesRoadmap() {
           ← 1 · Службы
         </button>
         <button
-          disabled
-          style={{ padding: "6px 16px", fontSize: "11px", fontWeight: 600, borderRadius: "4px", border: "1.5px solid #9ca3af", background: "#ffffff", color: "#374151", cursor: "default", opacity: 1 }}
+          onClick={() => navigate("/profiles-roadmap")}
+          style={{ padding: "6px 16px", fontSize: "11px", fontWeight: 600, borderRadius: "4px", border: "1.5px solid #d1d5db", background: "transparent", color: "#6b7280", cursor: "pointer" }}
         >
           2 · Профили должностей
         </button>
@@ -166,15 +136,16 @@ export default function ProfilesRoadmap() {
           onClick={() => navigate("/personnel-outsourcing-roadmap")}
           style={{ padding: "6px 16px", fontSize: "11px", fontWeight: 600, borderRadius: "4px", border: "1.5px solid #d1d5db", background: "transparent", color: "#6b7280", cursor: "pointer" }}
         >
-          3а · Персонал — Аутсорсинг →
+          ← 3а · Аутсорсинг
         </button>
         <button
-          onClick={() => navigate("/personnel-staff-roadmap")}
-          style={{ padding: "6px 16px", fontSize: "11px", fontWeight: 600, borderRadius: "4px", border: "1.5px solid #d1d5db", background: "transparent", color: "#6b7280", cursor: "pointer" }}
+          disabled
+          style={{ padding: "6px 16px", fontSize: "11px", fontWeight: 600, borderRadius: "4px", border: "1.5px solid #9ca3af", background: "#ffffff", color: "#374151", cursor: "default", opacity: 1 }}
         >
-          3б · Персонал — Штат →
+          3б · Персонал планирования — Штат
         </button>
       </div>
+
       <div
         style={{
           width: "100%",
@@ -203,17 +174,17 @@ export default function ProfilesRoadmap() {
         >
           <div>
             <div style={{ color: "#9ca3af", fontSize: "8.5px", fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "3px" }}>
-              Ключевая аналитика · Проект
+              Ключевая аналитика · Персонал планирования
             </div>
             <div style={{ color: "#111827", fontSize: "17px", fontWeight: 700, letterSpacing: "-0.01em" }}>
-              Дорожная карта — Аналитика «Профили должностей»
+              Дорожная карта — Штат
             </div>
           </div>
           <div style={{ display: "flex", gap: "18px", alignItems: "center", paddingBottom: "2px" }}>
             {[
               { color: palette.requirement.dot, label: "Требование" },
               { color: palette.decision.dot, label: "Решение" },
-              { color: palette.risk.dot, label: "Риск / Ограничение / Проблема" },
+              { color: palette.risk.dot, label: "Риск / Ограничение" },
               { color: palette.cancelled.dot, label: "Отмена / Пересмотр" },
             ].map((l) => (
               <div key={l.label} style={{ display: "flex", alignItems: "center", gap: "5px" }}>
@@ -282,45 +253,36 @@ export default function ProfilesRoadmap() {
         >
           {meetings.map((m, mi) => (
             <div key={mi} style={{ display: "flex", flexDirection: "column", gap: "5px", minWidth: 0 }}>
-              {m.items.map((item, ii) => {
-                const p = palette[item.type as keyof typeof palette];
-                return (
-                  <div
-                    key={ii}
-                    style={{
-                      borderRadius: "3px",
-                      borderLeft: `2px solid ${p.border}`,
-                      background: p.bg,
-                      padding: "6px 8px",
-                    }}
-                  >
-                    <div style={{ display: "flex", alignItems: "center", gap: "4px", marginBottom: "2px" }}>
-                      <Icon
-                        name={item.icon}
-                        size={9}
-                        style={{ color: p.border, flexShrink: 0 }}
-                      />
-                      <span style={{
-                        fontSize: "9px",
-                        fontWeight: 700,
-                        color: p.text,
-                        lineHeight: "1.2",
-                        letterSpacing: "0.01em",
-                      }}>
-                        {item.title}
-                      </span>
+              {m.items.length === 0 ? (
+                <div style={{ borderRadius: "3px", borderLeft: "2px solid #e5e7eb", background: "#f9fafb", padding: "6px 8px" }}>
+                  <p style={{ fontSize: "8.5px", color: "#d1d5db", lineHeight: "1.45", margin: 0, fontStyle: "italic" }}>—</p>
+                </div>
+              ) : (
+                m.items.map((item, ii) => {
+                  const p = palette[item.type as keyof typeof palette];
+                  return (
+                    <div
+                      key={ii}
+                      style={{
+                        borderRadius: "3px",
+                        borderLeft: `2px solid ${p.border}`,
+                        background: p.bg,
+                        padding: "6px 8px",
+                      }}
+                    >
+                      <div style={{ display: "flex", alignItems: "center", gap: "4px", marginBottom: "2px" }}>
+                        <Icon name={item.icon} size={9} style={{ color: p.border, flexShrink: 0 }} />
+                        <span style={{ fontSize: "9px", fontWeight: 700, color: p.text, lineHeight: "1.2", letterSpacing: "0.01em" }}>
+                          {item.title}
+                        </span>
+                      </div>
+                      <p style={{ fontSize: "8.5px", color: "#4b5563", lineHeight: "1.45", margin: 0 }}>
+                        {item.text}
+                      </p>
                     </div>
-                    <p style={{
-                      fontSize: "8.5px",
-                      color: "#4b5563",
-                      lineHeight: "1.45",
-                      margin: 0,
-                    }}>
-                      {item.text}
-                    </p>
-                  </div>
-                );
-              })}
+                  );
+                })
+              )}
             </div>
           ))}
         </div>
@@ -338,15 +300,15 @@ export default function ProfilesRoadmap() {
           <div style={{ display: "flex", gap: "18px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
               <Icon name="XCircle" size={10} style={{ color: "#b87a7a" }} />
-              <span style={{ fontSize: "8px", color: "#9ca3af" }}>17.03 — новое решение отменяет все предыдущие по использованию подсистемы Табелирования</span>
+              <span style={{ fontSize: "8px", color: "#9ca3af" }}>16.03 — решение 11.03 пересмотрено: отказ от ФИО, переход на обезличенные данные</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-              <Icon name="Clock" size={10} style={{ color: "#c4976a" }} />
-              <span style={{ fontSize: "8px", color: "#9ca3af" }}>Аналитика приостановлена с 06.03 до завершения нормализации справочника</span>
+              <Icon name="ShieldCheck" size={10} style={{ color: "#7aab8a" }} />
+              <span style={{ fontSize: "8px", color: "#9ca3af" }}>19.03 — СБ разрешил ФИО+должность при наличии согласия на обработку ПДН</span>
             </div>
           </div>
           <span style={{ fontSize: "8px", color: "#d1d5db", letterSpacing: "0.06em" }}>
-            Март 2026 · Ключевая аналитика — Профили должностей
+            Март 2026 · Ключевая аналитика — Персонал планирования (Штат)
           </span>
         </div>
       </div>
