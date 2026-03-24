@@ -1,4 +1,5 @@
 import Icon from "@/components/ui/icon";
+import { useNavigate } from "react-router-dom";
 
 const meetings = [
   {
@@ -132,6 +133,7 @@ function getMeetingDot(items: typeof meetings[0]["items"]) {
 }
 
 export default function ProfilesRoadmap() {
+  const navigate = useNavigate();
   return (
     <div
       style={{
@@ -139,11 +141,28 @@ export default function ProfilesRoadmap() {
         minHeight: "100vh",
         background: "#e5e7eb",
         display: "flex",
+        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         padding: "24px",
+        gap: "14px",
       }}
     >
+      {/* Nav */}
+      <div style={{ display: "flex", gap: "8px", alignSelf: "flex-start", marginLeft: "calc((100% - 1280px) / 2)", maxWidth: "1280px", width: "100%" }}>
+        <button
+          onClick={() => navigate("/")}
+          style={{ padding: "6px 16px", fontSize: "11px", fontWeight: 600, borderRadius: "4px", border: "1.5px solid #d1d5db", background: "transparent", color: "#6b7280", cursor: "pointer" }}
+        >
+          ← 1 · Службы
+        </button>
+        <button
+          disabled
+          style={{ padding: "6px 16px", fontSize: "11px", fontWeight: 600, borderRadius: "4px", border: "1.5px solid #9ca3af", background: "#ffffff", color: "#374151", cursor: "default", opacity: 1 }}
+        >
+          2 · Профили должностей
+        </button>
+      </div>
       <div
         style={{
           width: "100%",
