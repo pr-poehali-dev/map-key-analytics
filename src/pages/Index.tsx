@@ -295,9 +295,6 @@ export default function Index() {
                       color: isCancelled ? "#b0b7c0" : "#4b5563",
                       lineHeight: "1.45",
                       margin: 0,
-                      textDecoration: isCancelled ? "line-through" : "none",
-                      textDecorationColor: "#b87a7a",
-                      textDecorationThickness: "1px",
                     }}>
                       {item.text}
                     </p>
